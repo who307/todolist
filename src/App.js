@@ -25,7 +25,7 @@ class App extends React.Component {
           <TextField label="상세내용" size="normal" margin="normal" fullWidth multiline />
           <KeyboardDatePicker
             disable="inline"
-            format="yyyy/MM/DD"
+            format="yyyy/MM/DD/dd"
             margin="normal"
             label="시작 예정일"
             onChange={(value) => console.log(value)}
@@ -47,7 +47,7 @@ class App extends React.Component {
         </Paper>
         <div className="list_area">리스트 영역</div>
         <Typography variant="body2" color="textSecondary" align="center">
-          {'Copyrigh ⓒ 홍길동 ' + new Date().getFullYear() + '.'}
+          {'Copyright ⓒ 홍길동 ' + new Date().getFullYear() + '.'}
         </Typography>
       </div>
     );

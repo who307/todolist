@@ -21,14 +21,14 @@ html{
 }
 
 .input_area{
-  background-color: rgb(126, 184, 223);
+  background-color: rgb(255, 66, 75);
   width : 45%;
   min-width : 300px;
 
 }
 
 .list_area{
-  background-color: rgb(148, 211, 148);
+  background-color: rgb(0, 255, 13);
   width:45%;
   min-width : 300px;
   min-height : 300px;
