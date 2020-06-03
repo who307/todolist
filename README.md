@@ -8,3 +8,9 @@
 ## 2020-05-27
 > 1. todolist null값 출력시 에러 팝업창 띄우기
 > 2. material Alert, SnackBar 추가 
+
+## 2020-06-03
+> 1. 컴포넌트 나누기
+> 2. 유효성 검사
+> 3. moment 함수 활용
+

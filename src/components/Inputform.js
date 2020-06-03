@@ -1,10 +1,9 @@
 import React from 'react';
 import { TextField,  Paper, Dialog, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core';
 import { KeyboardTimePicker, KeyboardDatePicker } from '@material-ui/pickers';
-import Alert from '@material-ui/lab/Alert';
-import Snackbar from '@material-ui/core/Snackbar';
 import { render } from '@testing-library/react';
 import Button from '@material-ui/core/Button';
+import CAlert from './modal/customAlert';
 
 class inputform extends React.Component {
     constructor(props) {
@@ -92,11 +91,18 @@ class inputform extends React.Component {
     const {
       title, content, startDate, startTime, endDate, endTime
     } = this.state;
-    if(!title ||  !content || !startDate || !startTime || !endDate || !endTime){    
-      return false;
+
+    const data_eng = {
+      title,content,startDate,
+      startTime,endTime,endDate
+    };
+
+      for (const [key, value] of Object.entries(data_eng)) {
+        if(!value) return {check: false, target: key}
+      }
+      return {check : true}
     }
-      return true;
-  }
+   
   
   modalClose(){
     this.setState({
@@ -177,14 +183,10 @@ class inputform extends React.Component {
         <Button variant="outlined" color="primary" onClick={this.addInputData.bind(this)}>
         저장
         </Button>
-
-        <Snackbar open={modalOpen} autoHideDuration={6000} onClose={this.modalClose.bind(this)}
-        anchorOrigin={{vertical:"top", horizontal:"left"}}>
-
-        <Alert onClose={this.modalClose.bind(this)} severity="success">
-          This is a success message!
-        </Alert>
-      </Snackbar>
+        <CAlert modalClose={this.modalClose.bind(this)}
+        modalOpen={modalOpen}
+        message={"에러에요"}
+        />
         </Paper>
         )
         }

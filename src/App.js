@@ -1,63 +1,97 @@
 import React from 'react';
 import './App.css';
-import {Typography, List, ListItem, ListItemText } from '@material-ui/core';
+import { Typography, List, ListItem, ListItemText } from '@material-ui/core';
 import { render } from '@testing-library/react';
-import Inputform from './components/Inpuutform';
+import Inputform from './components/Inputform'
+import moment from 'moment';
+
+
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      title: "",
-      content: "",
-      startDate: null,
-      startTime: null,
-      endDate: null,
-      endTime: null,
-      todoList:[]
+    this.localStorage = window.localStorage;
+    const getItem = localStorage.getItem("todolist_state");
+    if(getItem){
+      this.state = JSON.parse(getItem);
+    }else{
+      this.state = {
+        todoList:[]
+      }
     }
   }
 
-//todoList의 state값을 nowList로 세팅해준다.
-  addTodoList(date){
+  addTodoList(data){
     const nowList = this.state.todoList;
-    nowList.push(date);
+    nowList.push(data);
     this.setState({
-      todoList: nowList,
+      todoList:nowList,
+    },()=>{
+      const stringState = JSON.stringify(this.state);
+      this.localStorage.setItem("todolist_state", stringState);
     });
   }
+  
+  
 
   render() {
-    
-
+    const {todoList} = this.state;
     return (
       <div className="App">
         <div className="header"> TODO LIST</div>
-        
-        <Inputform addTodoList ={this.addTodoList.bind(this)}/>
-        <div className="list_area"> 리스트 영역
+        <Inputform addTodoList={this.addTodoList.bind(this)}></Inputform>
+        <div className="list_area"> 
             <List>
-              {this.state.todoList.map((todoItem, idx) => {
-                const {
+              {todoList.map((todoItem, idx) => {
+                let {
                   title, content, startDate, startTime, endDate, endTime
                 } = todoItem;
+
+                if((typeof startDate)==="string"){
+                  startDate = moment(startDate);
+                  startTime = moment(startTime);
+                  endDate = moment(endDate);
+                  endTime = moment(endTime);      
+                }
+
+                const checkToday = moment().isBetween(startDate, endDate);
+                const checkF = (moment().diff(startDate) <0);
+                const checkB = (moment().diff(endDate) >0);
+                let fontColor = "black";
+                if(checkToday)fontColor="blue";
+                if(checkF)fontColor="grey";
+                if(checkB)fontColor="red";
+
+              
+                
+                
                 return (
-                  <ListItem key ={idx} role={undefined} dense button>
-                    <ListItemText 
+                  <ListItem key={idx} role={undefined} dense button>
+                  <ListItemText
+                    
                     primary={title}
-                    secondary={startDate.format('yyyy-MM-DD')+''+startTime.format('HH:MM')+ endDate.format('yyyy-MM-DD')+''+endTime.format('HH:MM')}
+                    style={{color :fontColor}}
+                    secondary={startDate.format('yyyy-MM-DD') +' /' + startTime.format('HH:DD')+' ~ '+endDate.format('yyyy-MM-DD')+' / '+endTime.format('HH:DD')}
                     />
-                  </ListItem>
+                    </ListItem>
                 )
-                })}
+              })}
             </List>
         </div>
+            
 
         <Typography variant="body2" color="textSecondary" align="center">
-          {'Copyright ⓒ 문건후2015' + new Date().getFullYear() + '.'}
+          {'Copyright ⓒ 문건후201540209' + new Date().getFullYear() + '.'}
         </Typography>
+
+         
+        <div>
+        
+        {/* <Button variant="contained" color="primary" onClick={this.saveTodoList.bind(this)}>
+          SAVE
+        </Button> */}
         </div>
+      </div>
     );
   }
 }
