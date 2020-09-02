@@ -81,7 +81,7 @@ class App extends React.Component {
             
 
         <Typography variant="body2" color="textSecondary" align="center">
-          {'Copyright ⓒ 문건후201540209' + new Date().getFullYear() + '.'}
+          {'Copyright ⓒ 문건후(moongunwho)201540209' + new Date().getFullYear() + '.'}
         </Typography>
 
          
